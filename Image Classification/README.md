@@ -7,7 +7,6 @@ An implementation of the Naive Bayes Classifier, Perceptron Classifier, and a Cl
 1. Download All Code + data
 2. Unzip
 3. Run the following command:
-##Run the code
 ```
 python dataClassifier.py -f -r -d faces/digits -c nb/perceptron/mira
 ```
