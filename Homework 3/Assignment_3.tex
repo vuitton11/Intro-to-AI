@@ -1,0 +1,296 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}   % to change margins
+\usepackage{titling}             % Uncomment both to 
+\usepackage{amsmath}  
+\setlength{\droptitle}{-2cm}     % change title position 
+\author{Veton Abazovic | Michael Belmont}
+\title{\vspace{-1.5cm}            % Another way to do
+Assignment 3}
+\begin{document}
+\maketitle
+\setlength{\parindent}{0pt}
+\section*{Question 1}
+Consider the following Bayesian network, where variables A through E are all Boolean valued.
+Note: there is a typo in the image, it should be P(A = true) = 0.2 instead of P(D = true) = 0.2.
+	\subsection*{A)}
+	$P(A)*P(B)*P(C)*P(D\mid A,B)*P(E\mid B,C) = 
+.2*.5*.8*.1*.3 = 0.0024$
+	\subsection*{B)}
+	$P(\neg A, \neg B, \neg C, \neg D, \neg E) = \neg P(A) * \neg P(B) * \neg P(C) * \neg P(D\mid A,B) \neg P(E\mid B,C)$
+	\newline
+	= 0.8 * 0.5 * 0.2 * 0.1 * 0.8 = 0.0064
+	\subsection*{C)}
+	$P(\neg A\mid B,C,D,E) = \dfrac{P(\neg A) * P(B) * P(C) * P(D\mid \neg A, B) * P(E\mid B,C)}{P(A,B,C,D,E) + P(\neg A) * P(B) * P(C) * P(D\mid \neg A,B) * P(E\mid B,C)}$
+	\newline
+	\newline
+	= $\dfrac{0.8 * 0.5 * 0.8 * 0.6 * 0.3}{0.0024 + 0.8 * 0.5 * 0.8 * 0.6 * 0.3} = \dfrac{0.0576}{0.06}$
+	\newline
+	\newline
+	= 0.96
+\section*{Question 2}
+	\subsection*{A)}
+	$P(B),P(E),P(A\mid B,E),P(J\mid A),P(M\mid A)$
+	\newline
+	$\sum\nolimits_{B}P(B) * \sum\nolimits_{E}P(E) * \sum\nolimits_{A}P(A\mid B,E) * P(J\mid A)*P(M\mid A)$
+	\newline
+	$F1(B) * \sum\nolimits_{E}F2(E) * \sum\nolimits_{A}F3(A,B,E)*F3(A)*F4(A)$
+	\newline
+	F1(B) = P(B) = $\binom {P(b)}{P(\neg b)} = \binom {0.9}{0.05}$
+	\newline
+	F2(E) = P(E) = $\binom {P(e)}{P(\neg e)} = \binom {0.002}{0.998}$
+	\newline
+	F4(A) = $P(J\mid A) = \binom {P(j\mid a)}{P(j\mid \neg a)} = \binom {0.90}{0.05}$
+	\newline
+	F5(A) = $P(M\mid A) = \binom {P(m\mid a)}{P(m\mid \neg a)} = \binom {0.70}{0.01}$
+	\newline
+	F3(A,B,E) = $P(A\mid B,E) = \binom {P(a\mid b,e) \>\>\>\> P(a\mid b, \neg e)}{P(a\mid \neg b, e) \>\>\>\> P(a\mid \neg b, \neg e)} = \binom {0.95 \>\>\>\>0.94}{0.29 \>\>\>\> 0.001}$
+	\newline
+	F3($\neg A$,B,E) = $P(\neg A\mid B,E) = \binom {P(\neg a\mid b,e) \>\>\>\> P(\neg a\mid b, \neg e)}{P(\neg a\mid \neg b, e) \>\>\>\> P(\neg a\mid \neg b, \neg e)} = \binom {0.05 \>\>\>\>0.06}{0.71 \>\>\>\> 0.999}$
+	\newline
+	F6(B,E) = $\sum\nolimits_{A} P(A\mid B,E) * P(J\mid A)P(M\mid A)$
+	\newline
+	F6(B,E) = F3(A,B,E) * F4(A) * F5(A)
+	\newline
+	F6(B,E) = F3(A,B,E) * F4(A) * F5(A) + F3(A,B,E) * F4(A) * F5(A)
+	\newline
+	F7(B) = F2(B) * F6(B,E) + F2(B) * F6(B,E)
+	\newline
+	$P(B\mid J, M) = \propto * F1(B) * F7(B)$
+	\newline
+	F1(B)*F7(B) = $\binom {0.00059224}{0.001491857}$
+	\newline
+	$\propto = 1/(0.00059224 + 0.001491857) = 479.8233$
+	\newline
+	F1(B) * F7(B)(Normalizing with $\propto) = \binom {0.2841718}{0.7158281}$
+	\subsection*{B)}
+	Enumeration = $O(n2^{n-2})$
+	\newline
+Variable Elimination = O(n)
+	\newline
+	\section*{Question 3}
+	\subsection*{1)}
+	
+		First we find the probability the rover is in a hot location.
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Rover, Hot}
+				\begin{tabular}{c|c}
+				\textbf{$X_1$} & \textbf{P($X_1$ $\|$ $E_1$ = Hot)}\\
+				\hline
+				A & $1.0$\\
+				B & $0.0$\\
+				C D E F & $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+		
+		Then we find where P($X_2$ $\|$ $E_1$ = Hot, $E_2$ = Cold)
+		
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Rover, Hot Cold}
+				\begin{tabular}{c|c}
+				\textbf{$X_2$} & \textbf{P($X_2$ $\|$ $E_1$ = Hot, $E_2$ = Cold)}\\
+				\hline
+				A & $0.0$\\
+				B & $1.0$\\
+				C D E F & $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+		
+		Then we find the $X_3$ value and normalize it.
+		
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Rover, Hot Cold Cold}
+				\begin{tabular}{c|c}
+				\textbf{$X_3$} & \textbf{P($X_3$ $\|$ $E_1$ = Hot, $E_2$ = Cold, $E_3$ = Cold)}\\
+				\hline
+				A & $0.0$\\
+				B & $0.2$\\
+				C & $0.8$\\
+				D E F & $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+	\subsection*{2)}
+		The probability of position at the end of day 2 has to be B because if day 1 is hot, it must stay at A, and if day 2 is cold and it moves a mile a day, it must be at B.
+		
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Position at End of Day 2}
+				\begin{tabular}{c|c}
+				\textbf{$X_2$} & \textbf{P($X_2$ $\|$ $Hot_1$, $Cold_1$, $Cold_2$)}\\
+				\hline
+				A & $0.0$\\
+				B & $1.0$\\
+				C D E F& $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+	\subsection*{3)}
+		The most likely sequence of positions would be day 1 is A, day 2 is B, day 3 is B. 
+	\subsection*{4)}
+		Because we already know $hot_1$, $cold_2$, and $cold_3$, we know that we have to be at C so we could have $hot_4$. The probability of being $hot_4$ would be 0.64 * 0.8, as we would have to be at C (0.64) to move to D and there is a 0.8 chance of moving to D instead of staying at C, so 0.8 times 0.64 is equal to 0.512. 
+		\newline\newline Next, we have $hot_5$. We have a 0.2 chance of staying at D instead of moving to E, so it is 0.2 times 0.512, or 0.1024. 
+		\newline\newline Finally, to move to $cold_6$, we have a 0.8 chance. So 0.8 times 0.1024 would be 0.08192, or a $8.192\%$ chance of this sequence.
+	\subsection*{5)}
+		We start with the following probability distribution.
+
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Rover, Hot Cold Cold}
+				\begin{tabular}{c|c}
+				\textbf{$X_3$} & \textbf{P($X_3$ $\|$ $E_1$ = Hot, $E_2$ = Cold, $E_3$ = Cold)}\\
+				\hline
+				A & $0.0$\\
+				B & $0.2$\\
+				C & $0.8$\\
+				D E F & $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+
+		Then we have the possibility of either moving to D or staying at C. If we're still at B on day 3, then we could either stay at B or move to C. If we're at C, then we could either stay at C or move to D. So we find the probability of location on day 4 as:
+
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Rover, Day 4 Unknown}
+				\begin{tabular}{c|c}
+				\textbf{$X_4$} & \textbf{P($X_3$ $\|$ $E_1$ = Hot, $E_2$ = Cold, $E_3$ = Cold, $E_4$ = Unknown)}\\
+				\hline
+				A & $0.0$\\
+				B & $0.04$\\
+				C & $0.32$\\
+				D & $0.64$\\
+				E F & $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+
+		Moving on to day 5, we have a similar situation. We could stay at any of the locations or move forward.
+
+		\begin{table}[h!]
+			\begin{center}
+				\caption{Probability of Rover, Day 5 Unknown}
+				\begin{tabular}{c|c}
+				\textbf{$X_5$} & \textbf{P($X_3$ $\|$ $E_1$ = Hot, $E_2$ = Cold, $E_3$ = Cold, $E_4, E_5$ = Unknown)}\\
+				\hline
+				A & $0.0$\\
+				B & $0.008$\\
+				C & $0.096$\\
+				D & $0.384$\\
+				E & $0.512$\\
+				F & $0.0$\\
+				\end{tabular}
+			\end{center}
+		\end{table}
+
+\section*{Question 4}
+	\subsection*{a}
+	\begin{tikzpicture}
+	[scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+  		\node (OC) at (1,5) {OC};
+ 		\node (CRP) at (4,8)  {CRP};
+ 		\node (Trav) at (8,9)  {Trav};
+ 		\node (FP) at (11,8) {FP};
+ 		\node (Fraud) at (9,6)  {Fraud};
+ 		\node (IP) at (5,5)  {IP};
+
+ 		\foreach \from/\to in {OC/CRP,Trav/FP,Fraud/FP,Trav/Fraud,Fraud/IP,OC/IP}
+   		\draw [->] (\from) -- (\to);
+	\end{tikzpicture}
+
+	\begin{table}[h!]
+		\begin{center}
+			\caption{OC}
+				\begin{tabular}{c|c}
+				\textbf{True} & \textbf{False}\\
+				\hline
+				0.75 & 0.25\\
+				\end{tabular}
+		\end{center}
+	\end{table}
+
+	\begin{table}[h!]
+		\begin{center}
+			\caption{CRP}
+				\begin{tabular}{c|c|c}
+				\textbf{OC} & \textbf{True} & \textbf{False}\\
+				\hline
+				True & 0.10 & 0.90\\
+				False & 0.001 & 0.999\\
+				\end{tabular}
+		\end{center}
+	\end{table}
+
+	\begin{table}[h!]
+		\begin{center}
+			\caption{Trav}
+				\begin{tabular}{c|c}
+				\textbf{True} & \textbf{False}\\
+				\hline
+				0.05 & 0.95\\
+				\end{tabular}
+		\end{center}
+	\end{table}
+
+	\begin{table}[h!]
+		\begin{center}
+			\caption{Fraud}
+				\begin{tabular}{c|c|c}
+				\textbf{Trav} & \textbf{True} & \textbf{False}\\
+				\hline
+				True & 0.01 & 0.99\\
+				False & 0.004 & 0.996\\
+				\end{tabular}
+		\end{center}
+	\end{table}
+
+	\begin{table}[h!]
+		\begin{center}
+			\caption{FP}
+				\begin{tabular}{c|c|c|c}
+				\textbf{Trav} & \textbf{Fraud} & \textbf{True} & \textbf{False}\\
+				\hline
+				True & True & 0.90 & 0.10\\
+				True & False & 0.10 & 0.90\\
+				False & True & 0.90 & 0.10\\
+				False & False & 0.01 & 0.99\\
+				\end{tabular}
+		\end{center}
+	\end{table}
+
+	\begin{table}[h!]
+		\begin{center}
+			\caption{IP}
+				\begin{tabular}{c|c|c|c}
+				\textbf{OC} & \textbf{Fraud} & \textbf{True} & \textbf{False}\\
+				\hline
+				True & True & 0.02 & 0.98\\
+				True & False & 0.01 & 0.99\\
+				False & True & 0.011 & 0.989\\
+				False & False & 0.001 & 0.999\\
+				\end{tabular}
+		\end{center}
+	\end{table}
+
+\subsection*{b}
+	P(Fraud = true $\|$ CRP = false, IP = false, FP = false, Trav = false) OR 
+	\newline P(Fraud = true $\|$ CRP = false, IP = false, FP = false, Trav = true)
+	
+	= 0.01 + 0.004 = 0.0104 or 1.04$\%$ \newline
+
+	P(Fraud = true $\|$ FP = true, IP = false, CRP = true)
+
+	= 0.9 * (0.10 * 0.02) = 0.0018 or 0.18$\%$
+	
+\end{document}
+\end{document}
